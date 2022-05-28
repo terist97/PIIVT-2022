@@ -1,20 +1,26 @@
 import CategoryModel from './CategoryModel.model';
 import * as mysql2 from 'mysql2/promise';
 import IAddCategory from './dto/IAddCategory.dto';
+import IAdapterOptions from '../../common/IAdapterOptions.interface';
+import BaseService from '../../common/BaseService';
+import IEditCategory from './dto/IEditCategory.dto';
+
+interface ICategoryAdapterOptions extends IAdapterOptions{}
+
+const DefaultCategoryAdapterOptions: ICategoryAdapterOptions={}
 
 
 
-class CategoryService{
 
-    private db: mysql2.Connection;
+class CategoryService extends BaseService<CategoryModel, ICategoryAdapterOptions>{
 
-    constructor(databaseConnection: mysql2.Connection){
-
-        this.db = databaseConnection;
-
+    tableName(): string {
+        return "category";
     }
+   
 
-    private async adaptToModel(data: any): Promise<CategoryModel>{
+
+    protected async adaptToModel(data: any, options:ICategoryAdapterOptions=DefaultCategoryAdapterOptions): Promise<CategoryModel>{
         const category: CategoryModel = new CategoryModel();
 
         category.categoryId=+data?.category_id;
@@ -95,31 +101,15 @@ class CategoryService{
     }
 
     public async add(data: IAddCategory): Promise<CategoryModel> {
-        return new Promise<CategoryModel>((resolve,reject) => {
-
-            const sql:string = "INSERT `CATEGORY` set `name` =?;";
-
-            this.db.execute(sql,[ data.name])
-            .then(async result => {
-                const info: any = result;
-                const newCategoryId= +(info[0].insertId);
-
-                const newCategory : CategoryModel | null = await this.getById(newCategoryId);
-                
-                if(newCategory === null) {
-                   return reject({
-                        message: 'Duplicate category name'
-                    });
-                }
-
-                resolve(newCategory);
-            })
-            .catch(error => {
-                reject(error);
-            })
-        })
+      return this.baseAdd(data,DefaultCategoryAdapterOptions);
     }
+
+    public async editById(categoryId:number, data: IEditCategory, options:ICategoryAdapterOptions =DefaultCategoryAdapterOptions ): Promise <CategoryModel>{
+        return this.baseEditById(categoryId,data,DefaultCategoryAdapterOptions);
+    }
+   
 }
 
 
 export default CategoryService;
+export {DefaultCategoryAdapterOptions};

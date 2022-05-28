@@ -9,6 +9,8 @@ import * as morgan from "morgan";
 import CategoryRouter from './components/category/CategoryRouter.router';
 import IApplicationResources from './common/IApplicationResources.interface';
 import * as mysql2 from 'mysql2/promise';
+import AdministratorService from './components/administrator/AdministratorService.service';
+import ItemService from "./components/item/ItemService.service";
 
 
 
@@ -21,20 +23,31 @@ fs.mkdirSync(config.logging.logPath, {
     recursive: true,
 
 });
-const applicationResources: IApplicationResources = {
-    databaseConnection: await mysql2.createConnection({
-      
-        host:config.database.host,
-        port:config.database.port,
-        user:config.database.user,
-        password:config.database.password,
-        database:config.database.database,
-        charset:config.database.charset,
-        timezone:config.database.timezone,
-        supportBigNumbers:config.database.supportBigNumbers,
-    }), 
-}
 
+const db= await mysql2.createConnection({
+      
+    host:config.database.host,
+    port:config.database.port,
+    user:config.database.user,
+    password:config.database.password,
+    database:config.database.database,
+    charset:config.database.charset,
+    timezone:config.database.timezone,
+    supportBigNumbers:config.database.supportBigNumbers,
+});
+
+const applicationResources: IApplicationResources = {
+    databaseConnection: db,
+    
+    
+};
+
+applicationResources.services={
+    category:new CategoryService(applicationResources),
+    administrator:new AdministratorService(applicationResources),
+    item:new ItemService(applicationResources),
+    
+};
 
 const application:express.Application = express();
 
