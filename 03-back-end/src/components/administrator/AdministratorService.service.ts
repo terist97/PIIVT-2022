@@ -42,4 +42,6 @@ export default class AdministratorService extends BaseService<AdministratorModel
             removePassword: true,
         });
     }
+
+    
 }

@@ -26,6 +26,7 @@ const EditAdministratorValidator = ajv.compile({
     },
     required: [
         
+        
     ],
     additionalProperties: false,
 });
