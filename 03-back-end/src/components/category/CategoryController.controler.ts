@@ -5,6 +5,7 @@ import IAddCategory from './dto/IAddCategory.dto';
 import CategoryModel from './CategoryModel.model';
 import IEditCategory, { EditCategoryValidator, IEditCategoryDto } from './dto/IEditCategory.dto';
 import BaseController from '../../common/BaseController';
+import IAdapterOptions from '../../common/IAdapterOptions.interface';
 
 
 class CategoryController extends BaseController{
@@ -88,24 +89,7 @@ class CategoryController extends BaseController{
         });
     }
 
-    async getAllItemsByCategoryId(req:Request, res:Response){
-
-        const categoryId: number = +req.params?.cid;
-
-        
-        this.services.category.getById(categoryId)
-        .then(result => {
-            if(result===null){
-                return res.sendStatus(404).send("Category not found!");
-            }
-            this.services.item.getAll
-
-        })
-        .catch(error => {
-            res.status(500).send(error?.message);
-        });
-
-    }
+   
 }
 
 export default CategoryController;

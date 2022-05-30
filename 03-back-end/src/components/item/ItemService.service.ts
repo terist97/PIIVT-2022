@@ -9,11 +9,11 @@ export interface IItemAdapterOptions extends IAdapterOptions {
  
 }
 
-export const DefaultItemAdapterOptions: IItemAdapterOptions = {
-    loadCategory: false,
+export class DefaultItemAdapterOptions implements IItemAdapterOptions {
+    loadCategory: false;
   
 }
-
+// ovde treba da budes exportovana classs
 
 
 export default class ItemService extends BaseService<ItemModel,IItemAdapterOptions>{
@@ -21,14 +21,16 @@ export default class ItemService extends BaseService<ItemModel,IItemAdapterOptio
         return "item";
     }
     protected adaptToModel(data: any, options: IItemAdapterOptions): Promise<ItemModel> {
-        return new Promise( async (resolve) => {
-            const item=new ItemModel();
+        return new Promise(async (resolve) => {
+            const item = new ItemModel();
 
-            item.itemId= +data?.item_id;
-            item.name= data?.name;
-            item.description=data?.description;
-            item.categoryId= +data?.category_id;
-            item.isActive=+data?.is_active===1;
+            item.itemId      = +data?.item_id;
+            item.name        = data?.name;
+            item.description = data?.description;
+            item.categoryId  = +data?.category_id;
+            item.isActive    = +data?.is_active === 1;
+            item.photo_name=data?.photo_name;
+            item.photo_path=data?.photo_path;
 
 
             if(options.loadCategory){
@@ -45,13 +47,15 @@ export default class ItemService extends BaseService<ItemModel,IItemAdapterOptio
         return this.getAllByFieldNameAndValue("category_id", categoryId, options);
     }
 
-    async add(data: IAddItem): Promise<ItemModel> {
-        return this.baseAdd(data, DefaultItemAdapterOptions);
-    }
+     async add(data: IAddItem): Promise<ItemModel> {
+         return this.baseAdd(data, {loadCategory:false});
+     }
 
-    async edit(itemId: number, data: IEditItem, options: IItemAdapterOptions): Promise<ItemModel> {
-        return this.baseEditById(itemId, data, options);
-    }
+     
+
+    // async edit(itemId: number, data: IEditItem, options: IItemAdapterOptions): Promise<ItemModel> {
+    //     return this.baseEditById(itemId, data, options);
+    // }
 
    
     

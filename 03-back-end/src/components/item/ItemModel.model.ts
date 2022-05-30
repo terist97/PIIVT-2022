@@ -7,6 +7,10 @@ export default class ItemModel implements IModel {
     description:string;
     categoryId:number;
     isActive:boolean;
+    photo_name:string;
+    photo_path:string;
+
+    
 
 
     category?:CategoryModel=null;

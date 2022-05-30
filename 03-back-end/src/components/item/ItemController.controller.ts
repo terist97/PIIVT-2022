@@ -11,18 +11,22 @@ import { DefaultCategoryAdapterOptions } from "../category/CategoryService.servi
 import IAdapterOptions from '../../common/IAdapterOptions.interface';
 
 export default class ItemController extends BaseController {
-    async getAllItemsByCategoryId(req: Request, res: Response) {
-        const categoryId: number = +req.params?.cid;
+   
+    async getAllItemsByCategoryId(req:Request, res:Response){
 
+        const categoryId: number = +req.params?.cid;
+        const itemId: number= +req.params?.iid;
+
+
+        
         this.services.category.getById(categoryId)
         .then(result => {
-            if (result === null) {
+            if(result===null){
                 return res.status(404).send("Category not found!");
             }
+            this.services.item.getAllByCategoryId(categoryId,{
+                loadCategory:false,
 
-            this.services.item.getAllByCategoryId(categoryId, {
-                loadCategory: false,
-               
             })
             .then(result => {
                 res.send(result);
@@ -30,10 +34,12 @@ export default class ItemController extends BaseController {
             .catch(error => {
                 res.status(500).send(error?.message);
             });
+
         })
         .catch(error => {
             res.status(500).send(error?.message);
         });
+
     }
 
     async getItemById(req: Request, res: Response) {
@@ -48,7 +54,7 @@ export default class ItemController extends BaseController {
 
             this.services.item.getById(itemId, {
                 loadCategory: true,
-              
+               
             })
             .then(result => {
                 if (result === null) {
@@ -70,48 +76,35 @@ export default class ItemController extends BaseController {
         });
     }
 
+
     async add(req: Request, res: Response) {
-        const categoryId: number = +req.params?.cid;
-        const data               =  req.body as IAddItemDto;
+         const categoryId: number = +req.params?.cid;
+         const data               =  req.body as IAddItemDto;
 
-        if (!AddItemValidator(data)) {
+         if (!AddItemValidator(data)) {
             return res.status(400).send(AddItemValidator.errors);
-        }
+         }
 
-        this.services.category.getById(categoryId)
-        .then(resultCategory => {
+         this.services.category.getById(categoryId)
+         .then(resultCategory => {
             if (resultCategory === null) {
-                return res.status(404).send("Category not found!");
-            }
+                 return res.status(404).send("Category not found!");
+             }
+                 this.services.item.add({
+                     name: data.name,
+                     category_id: categoryId,
+                     description: data.description,
+                     photo_name:data.photo_name,
+                     photo_path:data.photo_path
+                     
+                 })
 
-           
 
-          
-
-                this.services.item.add({
-                    name: data.name,
-                    category_id: categoryId,
-                    description: data.description,
-                })
-                .then(newItem => {
-                   
-
-                   
-                    this.services.item.getById(newItem.itemId, {
-                        loadCategory: true,
-                        
-                    })
-                    .then(result => {
-                        res.send(result);
-                    })
-                    .catch(error => {
-                        res.status(500).send(error?.message);
-                    });
-                })
-                .catch(error => {
-                    res.status(500).send(error?.message);
-                });
-            })
+                 //??? newItem
+                })               
+                 .catch(error => {
+                     res.status(500).send(error?.message);
+                 })
             .catch(error => {
                 res.status(500).send(error?.message);
             });
