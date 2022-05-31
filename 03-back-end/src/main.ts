@@ -11,6 +11,7 @@ import IApplicationResources from './common/IApplicationResources.interface';
 import * as mysql2 from 'mysql2/promise';
 import AdministratorService from './components/administrator/AdministratorService.service';
 import ItemService from "./components/item/ItemService.service";
+import fileUpload = require("express-fileupload");
 
 
 
@@ -38,16 +39,20 @@ const db= await mysql2.createConnection({
 
 const applicationResources: IApplicationResources = {
     databaseConnection: db,
+    services:{
+        category:null,
+        administrator:null,
+        item:null,
+    }
     
     
 };
 
-applicationResources.services={
-    category:new CategoryService(applicationResources),
-    administrator:new AdministratorService(applicationResources),
-    item:new ItemService(applicationResources),
+applicationResources.services.category= new CategoryService(applicationResources);
+applicationResources.services.administrator=new AdministratorService(applicationResources);
+applicationResources.services.item=new ItemService(applicationResources);
     
-};
+
 
 const application:express.Application = express();
 
@@ -56,8 +61,30 @@ application.use(morgan(config.logging.format, {
 }));
 
 
+
+
 application.use(cors());
+
+application.use(express.urlencoded({extended:true,}));
+application.use(fileUpload({
+    limits:{
+        files:1,
+        fileSize:1024*1024*5, //5mb
+    },
+    abortOnLimit:true,
+
+    useTempFiles:true,
+    tempFileDir:"../temp/",
+    createParentPath:true,
+    safeFileNames:true,
+    preserveExtension:true,
+
+}));
+
+
+
 application.use(express.json());
+
 application.use(config.server.static.route, express.static(config.server.static.path,
 {
 index:config.server.static.index,
