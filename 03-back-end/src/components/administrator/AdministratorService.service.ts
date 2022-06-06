@@ -3,6 +3,7 @@ import AdministratorModel from "./AdministratorModel.model";
 import IAdapterOptions from '../../common/IAdapterOptions.interface';
 import IAddAdministrator from './dto/IAddAdministrator.dto';
 import IEditAdministrator from './dto/IEditAdministrator.dto';
+import { rejects } from "assert";
 
 export class AdministratorAdapterOptions implements IAdapterOptions {
     removePassword: boolean;
@@ -40,6 +41,28 @@ export default class AdministratorService extends BaseService<AdministratorModel
     public async edit(id: number, data: IEditAdministrator): Promise<AdministratorModel> {
         return this.baseEditById(id, data, {
             removePassword: true,
+        });
+    }
+
+    public async getByUsername(username:string): Promise<AdministratorModel|null> {
+       return new Promise ((resolve, reject) => {
+        this.getAllByFieldNameAndValue("username", username,{
+            removePassword:false,
+       })
+
+       .then(result => {
+           if (result.length ===0) {
+               return resolve(null);
+           }
+
+           resolve(result[0]);
+       })
+
+       .catch(error => {
+           rejects(error);
+
+       })
+
         });
     }
 
