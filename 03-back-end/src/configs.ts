@@ -33,6 +33,7 @@ const DevConfig: IConfig = {
         timezone:"+01:00",
         supportBigNumbers:true,
     },
+    
     mail:{
     host: "smtp.office365.com",
     port:587,
@@ -69,7 +70,25 @@ const DevConfig: IConfig = {
         new CategoryRouter(),
         new AdministratorRouter(),
         new AuthRouter(),
-    ]
+    ],
+     fileUploads: {
+        maxFiles: 5,
+        maxFileSize: 5 * 1024 * 1024, // 5MB
+        temporaryFileDirecotry: "../temp/",
+        destinationDirectoryRoot: "uploads/",
+        photos: {
+            allowedTypes: [ "png", "jpg" ],
+            allowedExtensions: [ ".png", ".jpg" ],
+            width: {
+                min: 320,
+                max: 1920,
+            },
+            height: {
+                min: 240,
+                max: 1080,
+            },
+        }
+    },
    
     
 };

@@ -53,9 +53,9 @@ export default class ItemService extends BaseService<ItemModel,IItemAdapterOptio
 
      
 
-    // async edit(itemId: number, data: IEditItem, options: IItemAdapterOptions): Promise<ItemModel> {
-    //     return this.baseEditById(itemId, data, options);
-    // }
+     async edit(itemId: number, data: IEditItem, options: IItemAdapterOptions): Promise<ItemModel> {
+         return this.baseEditById(itemId, data, options);
+     }
 
    
     

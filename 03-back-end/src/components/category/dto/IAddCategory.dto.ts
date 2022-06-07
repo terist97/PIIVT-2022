@@ -5,8 +5,9 @@ const ajv = new Ajv();
 
 export default interface IAddCategory extends IServiceData{
     name: string;
-    photo_name:string;
-    photo_path:string;
+    description:string;
+    photo_name?:string;
+    photo_path?:string;
 }
 
 // interface IAddCategoryDto{
@@ -24,22 +25,19 @@ const AddCategoryValidator =ajv.compile({
             minLength:4,
             maxLength:32,
         },
-        photo_name:{
+        description:{
             type:"string",
             minLength:4,
-            maxLength:32,
+            maxLength:250,
         },
-        photo_path:{
-            type:"string",
-            minLength:4,
-            maxLength:32,
-        },
+       
         
     },
     required:[
         "name",
-        "photo_name",
-        "photo_path"
+        "description",
+        //"photo_name",
+      //  "photo_path"
     ],
     additionalProperties:false, 
 

@@ -25,6 +25,7 @@ class CategoryService extends BaseService<CategoryModel, ICategoryAdapterOptions
 
         category.categoryId=+data?.category_id;
         category.name= data?.name;
+        category.description=data?.description;
         category.photo_name=data?.photo_name;
         category.photo_path=data?.photo_path;
 
@@ -106,6 +107,7 @@ class CategoryService extends BaseService<CategoryModel, ICategoryAdapterOptions
 
     public async editById(categoryId:number, data: IEditCategory, options:ICategoryAdapterOptions =DefaultCategoryAdapterOptions ): Promise <CategoryModel>{
         return this.baseEditById(categoryId,data,DefaultCategoryAdapterOptions);
+        
     }
    
 }

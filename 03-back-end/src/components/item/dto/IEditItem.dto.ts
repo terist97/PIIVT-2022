@@ -5,16 +5,21 @@ const ajv= new Ajv();
 
 
 export interface IEditItemDto {
-    name: string;
-    description: string;
-    isActive: boolean;
+    name?: string;
+    description?: string;
+
+    isActive?: boolean;
+    photo_name?:string;
+    photo_path?:string;
    
 }
 
 export default interface IEditItem extends IServiceData {
-    name: string;
-    description: string;
-    is_active: number;
+    name?: string;
+    description?: string;
+    photo_name?:string;
+    photo_path?:string;
+    is_active?: number;
 }
 const EditItemValidator = ajv.compile({
     type: "object",
@@ -29,13 +34,24 @@ const EditItemValidator = ajv.compile({
             minLength: 32,
             maxLength: 500,
         },
+       
+        photo_name:{
+            type:"string",
+            minLength:4,
+            maxLength:32,
+        },
+        photo_path:{
+            type:"string",
+            minLength:4,
+            maxLength:250,
+        },
       additionalProperties: false,
             },
         
     required: [
-        "name",
-        "description",
-        "isActive",
+       // "name",
+        //"description",
+      //  "isActive",
         
     ],
     additionalProperties: false,

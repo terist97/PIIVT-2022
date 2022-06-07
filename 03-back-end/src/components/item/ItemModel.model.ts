@@ -5,10 +5,11 @@ export default class ItemModel implements IModel {
     itemId:number;
     name:string;
     description:string;
+    
     categoryId:number;
     isActive:boolean;
-    photo_name:string;
-    photo_path:string;
+    photo_name?:string;
+    photo_path?:string;
 
     
 

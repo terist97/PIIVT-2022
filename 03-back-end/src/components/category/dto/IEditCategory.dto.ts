@@ -4,14 +4,17 @@ import IServiceData from '../../../common/ServiceData.interface';
 const ajv = new Ajv();
 
 export default interface IEditCategory extends IServiceData{
-    name: string;
-    photo_name:string;
-    photo_path:string;
+    name?: string;
+    description?:string;
+    photo_name?:string;
+    photo_path?:string;
 }
  interface IEditCategoryDto{
-    name:string;
-    photo_name:string;
-    photo_path:string;
+
+    name?:string;
+    description?:string;
+    photo_name?:string;
+    photo_path?:string;
 }
 const EditCategoryValidator =ajv.compile({
 
@@ -22,7 +25,12 @@ const EditCategoryValidator =ajv.compile({
             minLength:4,
             maxLength:32,
         },
-        photo_name:{
+        description:{
+            type:"string",
+            minLength:4,
+            maxLength:250,
+        },
+       photo_name:{
             type:"string",
             minLength:4,
             maxLength:32,
@@ -30,14 +38,14 @@ const EditCategoryValidator =ajv.compile({
         photo_path:{
             type:"string",
             minLength:4,
-            maxLength:32,
+            maxLength:250,
         },
+        
+        
         
     },
     required:[
-        "name",
-        "photo_name",
-        "photo_path"
+        
     ],
     additionalProperties:false, 
 
