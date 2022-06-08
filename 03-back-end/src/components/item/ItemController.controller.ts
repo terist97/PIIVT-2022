@@ -310,6 +310,7 @@ export default class ItemController extends BaseController {
     }
 
     private doFileUpload(req:Request, res: Response): string[]| null{
+        const config: IConfig =DevConfig;
         if(!req.files || Object.keys(req.files).length===0){
          res.status(400).send("No file were uploaded!");
          return null;
@@ -321,8 +322,8 @@ export default class ItemController extends BaseController {
     const year=now.getFullYear();
     const month = ((now.getMonth()+1)+ "").padStart(2,"0");
  
-    const uploadDestinationRoot="./static/";
-    const destinationDirectory="uploads/" + year + "/" + month + "/";
+    const uploadDestinationRoot=config.server.static.path+ "/";
+    const destinationDirectory=config.fileUploads.destinationDirectoryRoot+ year +"/"+ month + "/";
  
     mkdirSync(uploadDestinationRoot+destinationDirectory,{
         recursive:true,
@@ -337,7 +338,7 @@ export default class ItemController extends BaseController {
         
         const type = filetype(readFileSync(file.tempFilePath))[0]?.typename;
         
-        if(!["png", "jpg"].includes(type)){
+        if(!config.fileUploads.photos.allowedTypes.includes(type)){
             unlinkSync(file.tempFilePath);
              res.status(415).send(`File ${fileFieldName}type is not supported!`);
             return null;
@@ -345,7 +346,7 @@ export default class ItemController extends BaseController {
         }
         const declaredExtension = extname(file.name);
  
-        if(![".png", "jpg"].includes(declaredExtension)){
+        if(!config.fileUploads.photos.allowedExtensions.includes(declaredExtension)){
             unlinkSync(file.tempFilePath);
             res.status(415).send(`File ${fileFieldName} extension is not supported!`);
              return null;
@@ -355,36 +356,36 @@ export default class ItemController extends BaseController {
  
         const size= sizeOf(file.tempFilePath);
  
-        if(size.width < 320 || size.width > 1920){
+        if(size.width < config.fileUploads.photos.width.min|| size.width > config.fileUploads.photos.width.max){
             unlinkSync(file.tempFilePath);
            res.status(415).send(`Image width ${fileFieldName}is not supported!`);
            return null; 
         }
  
  
-        if(size.height < 240 || size.height > 1080){
+        if(size.height < config.fileUploads.photos.height.min || size.height > config.fileUploads.photos.height.max){
             unlinkSync(file.tempFilePath);
           res.status(415).send(`Image height ${fileFieldName} is not supported!`);
           return null; 
         }
  
         const fileNameRandomPart = uuid.v4();
- 
-        const fileDestinationPath= uploadDestinationRoot + destinationDirectory + fileNameRandomPart+"-"+ file.name;
- 
-        file.mv(fileDestinationPath, error => {
-            if(error){
-            res.status(500).send("This file could be saved");
-            return null;
+
+        const fileDestinationPath = uploadDestinationRoot + destinationDirectory + fileNameRandomPart + "-" + file.name;
+
+        file.mv(fileDestinationPath, async error => {
+            if (error) {
+                throw {
+                    code: 500,
+                    message: `File ${fileFieldName} - could not be saved on the server!`,
+                };
             }
-        });
- 
-        uploadedFiles.push(destinationDirectory + fileNameRandomPart + "-"+ file.name);
-    }
- 
-        return uploadedFiles;
- 
-        
+       });
+
+       uploadedFiles.push(destinationDirectory + fileNameRandomPart + "-"+ file.name);
+   }
+
+       return uploadedFiles;
     }  
 
     }

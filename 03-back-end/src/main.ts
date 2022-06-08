@@ -12,6 +12,8 @@ import * as mysql2 from 'mysql2/promise';
 import AdministratorService from './components/administrator/AdministratorService.service';
 import ItemService from "./components/item/ItemService.service";
 import fileUpload = require("express-fileupload");
+import CartService from "./components/cart/CartService.service";
+import OrderService from "./components/cart/OrderService.service";
 
 
 
@@ -43,6 +45,8 @@ const applicationResources: IApplicationResources = {
         category:null,
         administrator:null,
         item:null,
+        cart:null,
+        order:null,
     }
     
     
@@ -51,6 +55,8 @@ const applicationResources: IApplicationResources = {
 applicationResources.services.category= new CategoryService(applicationResources);
 applicationResources.services.administrator=new AdministratorService(applicationResources);
 applicationResources.services.item=new ItemService(applicationResources);
+applicationResources.services.cart=new CartService(applicationResources);
+applicationResources.services.order=new OrderService(applicationResources);
     
 
 
@@ -68,13 +74,13 @@ application.use(cors());
 application.use(express.urlencoded({extended:true,}));
 application.use(fileUpload({
     limits:{
-        files:1,
-        fileSize:1024*1024*5, //5mb
+        files:config.fileUploads.maxFiles,
+        fileSize:config.fileUploads.maxFileSize,
     },
     abortOnLimit:true,
 
     useTempFiles:true,
-    tempFileDir:"../temp/",
+    tempFileDir:config.fileUploads.temporaryFileDirectory,
     createParentPath:true,
     safeFileNames:true,
     preserveExtension:true,
