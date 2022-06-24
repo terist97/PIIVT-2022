@@ -1,27 +1,33 @@
 import React from 'react';
+import {Container} from 'react-bootstrap';
+import LoginPage from '../Administrator/LoginPage';
+import ContactPage from '../Pages/ContactPage/ContactPage';
+import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import './Application.sass';
+import Menu from '../Menu/Menu';
+import UserCategoryList from './User/UserCategoryList/UserCategoryList';
+import UserCategoryPage from './User/UserCategoryPage/UserCategoryPage';
 
-import './Application.css';
+
 
 function Application() {
   return (
-    <div className="App">
-      <header className="App-header">
-       
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <label htmlFor="username">username</label>
-        <input type="text" id="username" />
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="mt-4">
+      <Menu/>
+      
+      <BrowserRouter>
+
+        <Routes>
+          <Route path="/" element={<div><p>safasfs</p></div>} />
+          <Route path='/contact' element={ <ContactPage/> }/>
+          <Route path='/auth/administrator/login' element={ <LoginPage/> } />
+          <Route path="/categories" element={<UserCategoryList/>} />
+          <Route path="/category/:id" element={<UserCategoryPage/>} />
+
+          
+        </Routes>
+      </BrowserRouter>
+    </Container>
   );
 }
 
