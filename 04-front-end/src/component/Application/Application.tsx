@@ -9,6 +9,7 @@ import UserCategoryList from './User/UserCategoryList/UserCategoryList';
 import UserCategoryPage from './User/UserCategoryPage/UserCategoryPage';
 import AdminDashboard from '../Administrator/Dashboard/AdminDashboard';
 import AdminCategoryList from '../Administrator/Dashboard/AdminCategoryList';
+import AdminAdministratorList from '../Administrator/Dashboard/AdminAdministratorList';
 
 
 
@@ -29,6 +30,7 @@ function Application() {
           <Route path="/auth/admin/dashboard" element={<AdminDashboard/>}/>
 
           <Route path="/admin/dashboard/category/list" element={<AdminCategoryList/>} />
+          <Route path="/admin/dashboard/administrator/list" element={<AdminAdministratorList/>} />
            
 
           
