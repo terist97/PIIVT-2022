@@ -1,4 +1,5 @@
 import { BrowserRouter, Link} from 'react-router-dom';
+import AdminDashboard from '../Administrator/Dashboard/AdminDashboard';
 
 
 export default function Menu() {
@@ -15,7 +16,9 @@ export default function Menu() {
                         <Link className="nav-item nav-link active" to="/contact">Contact <span className="sr-only">(current)</span></Link>
                         <Link className="nav-item nav-link active" to="/categories">categories <span className="sr-only">(current)</span></Link>
                         <Link className="nav-item nav-link" to="/auth/administrator/login">Admin login</Link>
-                        
+
+                        <Link className="nav-item nav-link" to="/auth/admin/dashboard">AdminDashboard</Link>
+                
                         
     </div>
   </div>

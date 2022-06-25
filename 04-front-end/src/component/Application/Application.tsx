@@ -7,6 +7,8 @@ import './Application.sass';
 import Menu from '../Menu/Menu';
 import UserCategoryList from './User/UserCategoryList/UserCategoryList';
 import UserCategoryPage from './User/UserCategoryPage/UserCategoryPage';
+import AdminDashboard from '../Administrator/Dashboard/AdminDashboard';
+import AdminCategoryList from '../Administrator/Dashboard/AdminCategoryList';
 
 
 
@@ -23,6 +25,11 @@ function Application() {
           <Route path='/auth/administrator/login' element={ <LoginPage/> } />
           <Route path="/categories" element={<UserCategoryList/>} />
           <Route path="/category/:id" element={<UserCategoryPage/>} />
+
+          <Route path="/auth/admin/dashboard" element={<AdminDashboard/>}/>
+
+          <Route path="/admin/dashboard/category/list" element={<AdminCategoryList/>} />
+           
 
           
         </Routes>
