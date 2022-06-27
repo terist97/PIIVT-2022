@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { api } from "../../../api/api";
 import ICategory from "../../../models/ICategory.model";
+
+import { Link } from "react-router-dom";
 import './AdminCategoryList.sass';
 
 
@@ -50,7 +52,14 @@ export default function AdminCategoryList(){
                     </div>
                     </td>
                 <td>{props.category.description}</td>
-                <td>...</td>
+                <td>
+                    <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+
+                    props.category.categoryId + "/items"}> List items</Link>
+                    &nbsp;
+
+                    <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+
+                    props.category.categoryId + "/items/add"}> Add item</Link>
+                </td>
             </tr>
         );
     }

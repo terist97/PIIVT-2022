@@ -45,6 +45,35 @@ export function api(
     });
 
 }
+export function apiForm(
+    method:TApiMethod,
+    path: string,
+    role: "administrator",
+    data: FormData,
+    attemptToRefreshToken: boolean=true,
+): Promise <IApiResponse> {
+
+    return new Promise(resolve => {
+        axios({
+            method:method,
+            baseURL:"http://localhost:10000",
+            url:path,
+            data:data,
+            headers:{
+                "Content-Type" : "application/json",
+                "Authorization" : "Bearer " + "TOKEN WILL GO HERE LATER",
+            },
+
+        })
+        .then(res => handleApiResponse(res, resolve))
+        .catch(err => handleApiError(err,resolve,{
+            method,path,role,data,attemptToRefreshToken:false,
+        }));
+
+    });
+
+}
+
 
 function handleApiError(err:any,resolve:(value:IApiResponse | PromiseLike<IApiResponse>) => void, args: IApiArguments){
      
