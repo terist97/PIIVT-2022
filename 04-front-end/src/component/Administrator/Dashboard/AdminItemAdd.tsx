@@ -111,12 +111,12 @@ export default function AdminItemAdd() {
         .then(({ file, item }) => {
             const data = new FormData();
             data.append("image", file);
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA1", file);
+          
             return apiForm("post", "/api/category/" + categoryId + "/item/" + item?.itemId + "/photo", "administrator", data)
         })
         .then(res => {
             if (res.status !== "ok") {
-                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA2", file);
+               
                 throw new Error("Could not upload item photo!");
             }
 

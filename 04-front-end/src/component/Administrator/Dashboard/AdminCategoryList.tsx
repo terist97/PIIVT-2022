@@ -54,7 +54,7 @@ export default function AdminCategoryList(){
                 <td>{props.category.description}</td>
                 <td>
                     <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+
-                    props.category.categoryId + "/items"}> List items</Link>
+                    props.category.categoryId + "/items/list"}> List items</Link>
                     &nbsp;
 
                     <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+

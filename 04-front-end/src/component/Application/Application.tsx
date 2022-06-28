@@ -12,6 +12,7 @@ import AdminCategoryList from '../Administrator/Dashboard/AdminCategoryList';
 import AdminAdministratorList from '../Administrator/Dashboard/AdminAdministratorList';
 import AdminAdministratorAdd from '../Administrator/Dashboard/AdminAdministratorAdd';
 import AdminItemAdd from '../Administrator/Dashboard/AdminItemAdd';
+import AdminItemList from '../Administrator/Dashboard/AdminItemList';
 
 
 
@@ -29,7 +30,7 @@ function Application() {
           <Route path="/categories" element={<UserCategoryList/>} />
           <Route path="/category/:id" element={<UserCategoryPage/>} />
           <Route path="/admin/dashboard/category/:cid/items/add" element={<AdminItemAdd/>} />
-          <Route path="/admin/dashboard/category/:cid/items/list" element={<p>nije rutirano</p>} />
+          <Route path="/admin/dashboard/category/:cid/items/list" element={<AdminItemList/>} />
            
 
           <Route path="/auth/admin/dashboard" element={<AdminDashboard/>}/>
