@@ -28,7 +28,7 @@ export default class ItemService extends BaseService<ItemModel, IItemAdapterOpti
             item.name = data?.name;
             item.description = data?.description;
             item.categoryId = +data?.category_id;
-            item.price = +data?.item_price;
+            item.price = +data?.price;
             item.isActive = +data?.is_active === 1;
             item.photo_name = data?.photo_name;
             item.photo_path = data?.photo_path;
