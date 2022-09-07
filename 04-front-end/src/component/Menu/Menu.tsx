@@ -1,8 +1,19 @@
 import { BrowserRouter, Link} from 'react-router-dom';
 import AdminDashboard from '../Administrator/Dashboard/AdminDashboard';
+//import AuthReducer from './../../stores/AuthReducer';
 
 
 export default function Menu() {
+
+    // const [role, setRole ]= useState<"visitor" | "user" | "administrator"> (AuthReducer.getState().role);
+
+    // AuthStore.subcribe(() => {
+
+    //     setRole(AuthStore.getState().role)
+
+    // });
+
+    
     return (
 
         <BrowserRouter>

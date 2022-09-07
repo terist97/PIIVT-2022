@@ -13,11 +13,13 @@ import AdminAdministratorList from '../Administrator/Dashboard/AdminAdministrato
 import AdminAdministratorAdd from '../Administrator/Dashboard/AdminAdministratorAdd';
 import AdminItemAdd from '../Administrator/Dashboard/AdminItemAdd';
 import AdminItemList from '../Administrator/Dashboard/AdminItemList';
+import { Provider } from 'react-redux';
 
 
 
 function Application() {
   return (
+    
     <Container className="mt-4">
       <Menu/>
       
@@ -45,6 +47,7 @@ function Application() {
         </Routes>
       </BrowserRouter>
     </Container>
+   
   );
 }
 

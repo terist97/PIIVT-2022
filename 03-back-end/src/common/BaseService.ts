@@ -24,6 +24,16 @@ export default abstract class BaseService<ReturnModel extends IModel, AdapterOpt
         return this.serviceInstances;
     }
 
+    public startTransaction(){
+        return this.database.beginTransaction();
+    }
+
+    public commitChanges(){
+        return this.database.commit();
+    }
+    public rollbackChanges(){
+        return this.database.rollback();
+    }
     abstract tableName(): string;
 
   protected  abstract adaptToModel(data:any, options:AdapterOptions): Promise<ReturnModel>;
@@ -212,27 +222,28 @@ export default abstract class BaseService<ReturnModel extends IModel, AdapterOpt
             );
         }
 
-        protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName:string, fieldName:string, value:any): Promise <OwnReturnType[]>{
+        protected async getAllFromTableByFieldNameAndValue<OwnReturnType>(tableName: string, fieldName: string, value: any): Promise<OwnReturnType[]> {
             return new Promise(
-                (resolve,reject) => {
-                    const sql= `SELECT * FROM \`${ tableName }\` WHERE \`${ fieldName }\` = ?;`;
+                (resolve, reject) => {
+                    const sql =  `SELECT * FROM \`${ tableName }\` WHERE \`${ fieldName }\` = ?;`;
+    
                     this.db.execute(sql, [ value ])
-                        .then( async ( [ rows ] ) => {
-                            if (rows === undefined) {
-                                return resolve([]);
-                            }
+                    .then( async ( [ rows ] ) => {
+                        if (rows === undefined) {
+                            return resolve([]);
+                        }
     
-                            const items: OwnReturnType[] = [];
+                        const items: OwnReturnType[] = [];
     
-                            for (const row of rows as mysql2.RowDataPacket[]) {
-                                items.push(row as OwnReturnType);
-                            }
+                        for (const row of rows as mysql2.RowDataPacket[]) {
+                            items.push(row as OwnReturnType);
+                        }
     
-                            resolve(items);
-                        })
-                        .catch(error => {
-                            reject(error);
-                        });
+                        resolve(items);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
                 }
             );
         }

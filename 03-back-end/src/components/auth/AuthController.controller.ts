@@ -5,6 +5,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import IAdministratorTokenData from './dto/IAdministratorTokenData';
 import DevConfig from '../../configs';
+import AuthMiddleware from "../../middlewares/AuthMiddleware";
 
 export default class AuthController extends BaseController{
     
@@ -77,7 +78,7 @@ export default class AuthController extends BaseController{
 
         
         try{
-            const tokenData=this.validateTokenAs(refreshTokenHeader, "refresh");
+            const tokenData=AuthMiddleware.validateTokenAs(refreshTokenHeader, "refresh");
     
            
            const authToken = jwt.sign(tokenData, DevConfig.auth.administrator.tokens.auth.keys.private, {
@@ -101,79 +102,6 @@ export default class AuthController extends BaseController{
 
 
 
-        private validateTokenAs(tokenString: string, type:"auth" | "refresh"): IAdministratorTokenData{
-
-            if(tokenString === ""){
-                throw{
-                    status:400,
-                    message:"No token specified!",
-                }
-                
-            }
-    
-            const [ tokenType, token] = tokenString.trim().split(" ");
-    
-            if(tokenType !=="Bearer") {
-
-                throw{
-                    status:401,
-                    message:"Invalid token type!",
-                }
-               
-            }
-    
-            if( typeof token !=="string" || token.length ===0){
-
-                throw{
-                    status:401,
-                    message:"Token not specified toket",
-                }
-               
-              
-            }
-            try{
-            const tokenVerification = jwt.verify(token,DevConfig.auth.administrator.tokens[type].keys.public);
-            if(!tokenVerification) {
-
-                throw{
-                    status:401,
-                    message:"Invalid token specified!",
-                }
-    
-                
-               }
-               const originalTokenData= tokenVerification as IAdministratorTokenData;
-               const tokenData:IAdministratorTokenData={
-                   administratorId: originalTokenData.administratorId,
-                   username:originalTokenData.username,
-    
-               };
-        
-               
-               return tokenData;
-        }
-            catch (error)
-             {
-                const message: string = (error?.message ?? "");
-                if(message.includes("jwt expired")){
-
-                    throw{
-                        status:401,
-                        message:"This token has exired",
-                    };
-                    
-                   
-                }
-
-                throw{
-                    status:500,
-                    message:error?.message,
-                };
-                
-            }
-           
-
-        }
 
 
 }

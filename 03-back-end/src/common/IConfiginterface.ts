@@ -1,6 +1,23 @@
 import IRouter from "./IRouter.interface";
 import { Algorithm } from "jsonwebtoken";
 
+export interface IResize{
+    
+
+        prefix:string,
+        width:number,
+        height:number,
+        fit:"contain" | "cover",
+        defaultBackground:{
+            r:number,
+            g:number,
+            b:number,
+            alpha:number,
+        },
+
+    }
+
+
 export interface IMailConfiguration {
     host: string,
     port:number,
@@ -73,6 +90,7 @@ interface IConfig {
                 min: number,
                 max: number,
             },
+            resize:IResize[],
         },
     },
 
