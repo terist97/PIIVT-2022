@@ -23,7 +23,7 @@ function Application() {
     <Container className="mt-4">
       <Menu/>
       
-      <BrowserRouter>
+      
 
         <Routes>
           <Route path="/" element={<div><p>safasfs</p></div>} />
@@ -45,7 +45,7 @@ function Application() {
 
           
         </Routes>
-      </BrowserRouter>
+     
     </Container>
    
   );

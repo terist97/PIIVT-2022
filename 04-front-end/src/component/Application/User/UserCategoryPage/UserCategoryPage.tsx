@@ -30,7 +30,7 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
         api("get", "/api/category/" + categoryId, "administrator")
         .then(res => {
             if (res.status === 'error') {
-                throw new Error('Could not get catgory data!');
+                throw new Error('Could not get category data!');
             }
 
             setCategory(res.data);
@@ -40,7 +40,7 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
         })
         .then(res => {
             if (res.status === 'error') {
-                throw new Error('Could not get catgory items!');
+                throw new Error('Could not get category items!');
             }
 
             setItems(res.data);

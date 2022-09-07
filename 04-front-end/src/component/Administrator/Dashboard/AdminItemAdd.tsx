@@ -13,14 +13,17 @@ export interface IAdminItemAddUrlParams extends Record<string, string | undefine
 interface IAddItemFormState {
     name: string;
     description: string;
+    price:number;
   
 };
 
 type TSetName          = { type: "addItemForm/setName",          value: string };
 type TSetDescription   = { type: "addItemForm/setDescription",   value: string };
+type TSetPrice   = { type: "addItemForm/setPrice",   value: number };
 
 type AddItemFormAction = TSetName
                        | TSetDescription
+                       | TSetPrice
                      
 
 function AddItemFormReducer(oldState: IAddItemFormState, action: AddItemFormAction): IAddItemFormState {
@@ -38,6 +41,13 @@ function AddItemFormReducer(oldState: IAddItemFormState, action: AddItemFormActi
                 ...oldState,
                
                 description: action.value,
+            }
+        }
+        case "addItemForm/setPrice": {
+            return {
+                ...oldState,
+               
+                price: action.value,
             }
         }
 
@@ -61,6 +71,7 @@ export default function AdminItemAdd() {
     const [ formState, dispatchFormStateAction ] = useReducer(AddItemFormReducer, {
         name: "",
         description: "",
+        price:0,
       
     });
 
@@ -166,6 +177,17 @@ export default function AdminItemAdd() {
                                     />
                             </div>
                         </div>
+                        <div className="form-group mb-3">
+                            <label>Price</label>
+                            <div className="input-group">
+                                <textarea className="form-control form-control-sm" rows={ 5 }
+                                    value={ formState.price }
+                                    onChange={ e => dispatchFormStateAction({ type: "addItemForm/setPrice", value: Number(e.target.value) }) }
+                                    />
+                            </div>
+                        </div>
+
+                        
 
 
                         <div className="form-froup mb-3">

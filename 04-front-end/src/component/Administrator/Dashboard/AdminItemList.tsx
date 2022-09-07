@@ -54,6 +54,8 @@ export default function AdminItemList(){
                         <th>Photo</th>
                         <th>ID</th>
                         <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
                         <th>State</th>
                         <th>Options</th>
                         </tr>
@@ -79,6 +81,10 @@ export default function AdminItemList(){
                                 <td>
                                    {item.name} 
                                 </td>
+                                <td>
+                                    {item.description}
+                                </td>
+                                <td>{item.price}</td>
                                 <td>
                                     {
 
