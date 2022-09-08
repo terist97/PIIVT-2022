@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container} from 'react-bootstrap';
-import LoginPage from '../Administrator/LoginPage';
+import LoginPage from '../Administrator/AdministratorLoginPage/LoginPage';
 import ContactPage from '../Pages/ContactPage/ContactPage';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import './Application.sass';
@@ -14,11 +14,15 @@ import AdminAdministratorAdd from '../Administrator/Dashboard/AdminAdministrator
 import AdminItemAdd from '../Administrator/Dashboard/AdminItemAdd';
 import AdminItemList from '../Administrator/Dashboard/AdminItemList';
 import { Provider } from 'react-redux';
+import AdminItemEdit from '../Administrator/Dashboard/AdminItemEdit';
+import AuthStore from '../../stores/AuthStore';
 
 
 
 function Application() {
   return (
+
+    <Provider store={AuthStore}>
     
     <Container className="mt-4">
       <Menu/>
@@ -40,6 +44,7 @@ function Application() {
           <Route path="/admin/dashboard/category/list" element={<AdminCategoryList/>} />
           <Route path="/admin/dashboard/administrator/list" element={<AdminAdministratorList/>} />
           <Route path="/admin/dashboard/administrator/add" element={<AdminAdministratorAdd/>} />
+          <Route path="/admin/dashboard/category/:cid/items/edit/:iid" element={ <AdminItemEdit /> } />
 
           
 
@@ -47,6 +52,7 @@ function Application() {
         </Routes>
      
     </Container>
+    </Provider>
    
   );
 }
