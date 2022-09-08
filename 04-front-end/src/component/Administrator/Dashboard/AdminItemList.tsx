@@ -2,7 +2,7 @@ import {Link, useParams} from "react-router-dom";
 import { useEffect, useState } from 'react';
 import IItem from "../../../models/IItemModel";
 import { api } from "../../../api/api";
-import { faCheckSquare, faEdit, faSquare } from '@fortawesome/free-regular-svg-icons';
+import { faCheckSquare, faEdit, faPlusSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export interface IAdminItemListUrlParams extends Record <string, string | undefined > {
@@ -12,6 +12,7 @@ export interface IAdminItemListUrlParams extends Record <string, string | undefi
 export default function AdminItemList(){
     const params = useParams<IAdminItemListUrlParams>();
     const categoryId = params.cid;
+    
 
     const [ items, setItems ]= useState<IItem[]>([]);
     const [ errorMessage, setErrorMessage ] = useState<string>("");
@@ -40,8 +41,12 @@ export default function AdminItemList(){
 
 
     return (
-
+<div>
+<Link className="btn btn-primary btn-sm" type="button" to="/admin/dashboard/category/list">
+                &laquo; Back to category
+            </Link>
         <div className="card">
+            
         <div className="card-body">
             <div className="card-title">
                 <h1 className="h5">List of category items</h1>
@@ -50,6 +55,14 @@ export default function AdminItemList(){
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                 <table className="table table-sm table-bordered">
                     <thead>
+                    <tr>
+                        <th colSpan={6}></th>
+                        <th colSpan={2}>
+                            <Link className="btn btn-sm btn-primary" to={"/admin/dashboard/category/" + categoryId + "/items/add"}>
+                                <FontAwesomeIcon icon={faPlusSquare} /> Add new item
+                            </Link>
+                        </th>
+                    </tr>
                         <tr>
                         <th>Photo</th>
                         <th>ID</th>
@@ -108,6 +121,7 @@ export default function AdminItemList(){
                
             </div>
         </div>
+    </div>
     </div>
 
     );

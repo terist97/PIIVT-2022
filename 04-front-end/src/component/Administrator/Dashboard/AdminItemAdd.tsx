@@ -1,7 +1,7 @@
 import { faCheckSquare, faSquare } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useReducer, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { api, apiForm } from "../../../api/api";
 import ICategory from "../../../models/ICategory.model";
 
@@ -19,7 +19,7 @@ interface IAddItemFormState {
 
 type TSetName          = { type: "addItemForm/setName",          value: string };
 type TSetDescription   = { type: "addItemForm/setDescription",   value: string };
-type TSetPrice   = { type: "addItemForm/setPrice",   value: number };
+type TSetPrice         = { type: "addItemForm/setPrice",         value: number };
 
 type AddItemFormAction = TSetName
                        | TSetDescription
@@ -123,7 +123,7 @@ export default function AdminItemAdd() {
             const data = new FormData();
             data.append("image", file);
           
-            return apiForm("post", "/api/category/" + categoryId + "/item/" + item?.itemId + "/photo", "administrator", data)
+            return apiForm("post", "/api/category/" + categoryId + "/item/" + item?.itemId + "/photo", "administrator", data);
         })
         .then(res => {
             if (res.status !== "ok") {
@@ -150,6 +150,9 @@ export default function AdminItemAdd() {
 
     return (
         <div>
+            <Link className="btn btn-primary btn-sm" type="button" to="/admin/dashboard/category/list">
+                &laquo; Back to category
+            </Link>
             <div className="card">
                 <div className="card-body">
                     <div className="card-title">
