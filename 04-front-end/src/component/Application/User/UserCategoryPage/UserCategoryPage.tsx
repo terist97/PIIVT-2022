@@ -58,21 +58,49 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
     }
 
     return (
-        <div
-            className="card mb-4"   
-           
-           
-          >
-            <div className="card-body">
-                <div className="card-title">{ loading ? <p>Loading...</p> : <h2 className="h4">{ category?.name }</h2> }</div>
-                <div className="card-text">
-                    { errorMessage && <p className="alert alert-danger">Error: { errorMessage }</p> }
+        <div>
+            
+               
+                
+                   
 
-                    <div className="row">
-                        { items.map(item => <ItemPreview key={ "item-" + item.itemId } item={ item } /> ) }
-                    </div>
-                </div>
-            </div>
+                    
+                { items.map(item => 
+
+<div>
+
+                
+                
+                
+                
+<div className="card" style={{width:"500px", margin:"15px"}}>
+  
+  <img className="card-img-top" 
+                                    src={"http://localhost:10000/assets/" +item.photo_path}
+                                    style={{width:"150px"}} />
+  <div className="card-body">
+    <h4 className="card-title">{item.name}</h4>
+    <p className="card-text">{item.description}</p>
+    <p className="card-text">{item.price}</p>
+    <a href="#" className="btn btn-primary">Dodaj u korpu</a>
+  </div>
+</div>
+                
+                
+                
+                
+                
+</div>    
+                
+                ) }
+                
+
+
+
+
         </div>
+                
+            
+       
     );
 }

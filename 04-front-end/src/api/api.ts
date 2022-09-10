@@ -1,127 +1,153 @@
-import axios, {AxiosResponse} from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Response } from 'express';
+import AuthStore from '../stores/AuthStore';
 export type TApiMethod = "get" | "post" | "put" | "delete";
-export type TApiResponse = "ok" | "error" | "login"
+export type TApiRole = "user" | "administrator" | "visitor";
+export type TApiResponse = "ok" | "error" | "login";
 
 export interface IApiResponse {
-    status:TApiResponse;
-    data:any;
+    status: TApiResponse;
+    data: any;
 }
 
 interface IApiArguments {
-    method:TApiMethod,
+    method: TApiMethod,
     path: string,
-    role: "administrator",
+    role: TApiRole,
     data: any | undefined,
     attemptToRefreshToken: boolean,
 }
 
-
 export function api(
-    method:TApiMethod,
+    method: TApiMethod,
     path: string,
-    role: "administrator",
-    data: any | undefined=undefined,
-    attemptToRefreshToken: boolean=true,
-): Promise <IApiResponse> {
-
+    role: TApiRole,
+    data: any | undefined = undefined,
+    attemptToRefreshToken: boolean = true,
+): Promise<IApiResponse> {
     return new Promise(resolve => {
         axios({
-            method:method,
-            baseURL:"http://localhost:10000",
-            url:path,
-            data:data ? JSON.stringify(data) : "",
-            headers:{
-                "Content-Type" : "application/json",
-                "Authorization" : "Bearer " + "TOKEN WILL GO HERE LATER",
+            method: method,
+            baseURL: "http://localhost:10000",
+            url: path,
+            data: data ? JSON.stringify(data) : undefined,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + AuthStore.getState().authToken,
             },
-
         })
-        .then(res => handleApiResponse(res, resolve))
-        .catch(err => handleApiError(err,resolve,{
-            method,path,role,data,attemptToRefreshToken:false,
-        }));
-
+            .then(res => handleApiResponse(res, resolve))
+            .catch(err => handleApiError(err, resolve, {
+                method, path, role, data, attemptToRefreshToken,
+            }));
     });
-
 }
+
 export function apiForm(
-    method:TApiMethod,
+    method: TApiMethod,
     path: string,
-    role: "administrator",
+    role: TApiRole,
     data: FormData,
-    attemptToRefreshToken: boolean=true,
-): Promise <IApiResponse> {
-
+    attemptToRefreshToken: boolean = true,
+): Promise<IApiResponse> {
     return new Promise(resolve => {
         axios({
-            method:method,
-            baseURL:"http://localhost:10000",
-            url:path,
-            data:data,
-            headers:{
-                "Content-Type" : "application/json",
-                "Authorization" : "Bearer " + "TOKEN WILL GO HERE LATER",
+            method: method,
+            baseURL: "http://localhost:10000",
+            url: path,
+            data: data,
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + AuthStore.getState().authToken,
             },
-
         })
-        .then(res => handleApiResponse(res, resolve))
-        .catch(err => handleApiError(err,resolve,{
-            method,path,role,data,attemptToRefreshToken:false,
-        }));
-
+            .then(res => handleApiResponse(res, resolve))
+            .catch(err => handleApiError(err, resolve, {
+                method, path, role, data, attemptToRefreshToken,
+            }));
     });
-
 }
 
+function handleApiError(err: any, resolve: (value: IApiResponse | PromiseLike<IApiResponse>) => void, args: IApiArguments) {
+    if (err?.response?.status === 401 || err?.response?.status === 403) {
+        if (args.attemptToRefreshToken) {
+            refreshToken()
+                .then(token => {
+                    if (!token) {
+                        throw {
+                            status: 'login',
+                            data: 'You must log in again!',
+                        };
+                    }
 
-function handleApiError(err:any,resolve:(value:IApiResponse | PromiseLike<IApiResponse>) => void, args: IApiArguments){
-     
-        if(err?.response?.status === 401 && args.attemptToRefreshToken){
-            const refreshedToken ="refresh tokel call will go here later"
+                    return token;
+                })
+                .then(token => {
+                    AuthStore.dispatch({ type: "auth.update", key: "authToken", value: token });
 
-            if(refreshedToken){
-                api(args.method,args.path,args.role,args.data,args.attemptToRefreshToken)
-                .then(res => resolve(res))
-                .catch(() => {
-                    resolve({
-                        status:'login',
-                        data:'you must log in again'
-                    });
+                    return api(args.method, args.path, args.role, args.data, false);
+                })
+                .then(res => {
+                    resolve(res);
+                })
+                .catch(error => {
+                    resolve(error);
                 });
-            }
-           return resolve({
-                status:'login',
-                data:'you must log in again'
-            });
-
-        }
-
-        if(err?.response?.status === 401 && !args.attemptToRefreshToken){
+        } else {
             return resolve({
-                status:'login',
-                data:'you are not logged in'
+                status: 'login',
+                data: 'Wrong role!',
             });
         }
-
-        if(err?.response?.status === 403){
-            return resolve({
-                status:'login',
-                data:'Wrong role'
-            });
-        }
+    } else {
+        resolve({
+            status: 'error',
+            data: err?.response?.data,
+        });
+    }
 }
 
-function handleApiResponse(res: AxiosResponse<any, any>, resolve:(value:IApiResponse | PromiseLike<IApiResponse>) => void){
-    if(res?.status < 200 || res?.status>= 300){
+function handleApiResponse(res: AxiosResponse<any, any>, resolve: (value: IApiResponse | PromiseLike<IApiResponse>) => void) {
+    if (res?.status < 200 || res?.status >= 300) {
         return resolve({
-            status:'error',
-            data: res +'',
+            status: 'error',
+            data: res + '',
         });
     }
 
     resolve({
-        status:'ok',
-        data:res.data,
-    })
+        status: 'ok',
+        data: res.data,
+    });
+}
+
+function refreshToken(): Promise<string | null> {
+    return new Promise(resolve => {
+        const role = AuthStore.getState().role;
+
+        if (role === "visitor") {
+            return resolve(null);
+        }
+
+        axios({
+            method: "post",
+            baseURL: "http://localhost:10000",
+            url: "/api/auth/" + role + "/refresh",
+            headers: {
+                "Authorization": "Bearer " + AuthStore.getState().refreshToken,
+            },
+        })
+            .then(res => refreshTokenResponseHandler(res, resolve))
+            .catch(() => {
+                resolve(null);
+            });
+    });
+}
+
+function refreshTokenResponseHandler(res: AxiosResponse<any>, resolve: (value: string | PromiseLike<string | null> | null) => void) {
+    if (res.status !== 200) {
+        return resolve(null);
+    }
+
+    resolve(res.data?.authToken);
 }

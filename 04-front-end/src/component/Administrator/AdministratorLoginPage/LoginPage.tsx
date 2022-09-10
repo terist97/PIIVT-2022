@@ -21,13 +21,13 @@ export default function AdministratorLoginPage() {
             return res.data;
         })
         .then(data => {
-            AuthStore.dispatch( { type: "auth.update", key: "authToken", value: data?.authToken } );
-            AuthStore.dispatch( { type: "auth.update", key: "refreshToken", value: data?.refreshToken } );
-            AuthStore.dispatch( { type: "auth.update", key: "identity", value: username } );
-            AuthStore.dispatch( { type: "auth.update", key: "id", value: +(data?.id) } );
-            AuthStore.dispatch( { type: "auth.update", key: "role", value: "administrator" } );
+            AuthStore.dispatch( { type: "update", key: "authToken", value: data?.authToken } );
+            AuthStore.dispatch( { type: "update", key: "refreshToken", value: data?.refreshToken } );
+            AuthStore.dispatch( { type: "update", key: "identity", value: username } );
+            AuthStore.dispatch( { type: "update", key: "id", value: +(data?.id) } );
+            AuthStore.dispatch( { type: "update", key: "role", value: "administrator" } );
 
-            navigate("/admin/dashboard", {
+            navigate("/auth/admin/dashboard", {
                 replace: true,
             });
         })

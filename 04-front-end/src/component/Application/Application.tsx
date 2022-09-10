@@ -19,6 +19,7 @@ import AuthStore from '../../stores/AuthStore';
 
 
 
+
 function Application() {
   return (
 
@@ -40,6 +41,7 @@ function Application() {
            
 
           <Route path="/auth/admin/dashboard" element={<AdminDashboard/>}/>
+          
 
           <Route path="/admin/dashboard/category/list" element={<AdminCategoryList/>} />
           <Route path="/admin/dashboard/administrator/list" element={<AdminAdministratorList/>} />
@@ -47,7 +49,7 @@ function Application() {
           <Route path="/admin/dashboard/category/:cid/items/edit/:iid" element={ <AdminItemEdit /> } />
 
           
-
+        
           
         </Routes>
      
