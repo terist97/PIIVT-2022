@@ -36,7 +36,7 @@ export default function UserCategoryList() {
 
      useEffect(loadCategories,[])
      return (
-        <div>
+        <div style={{height:'50px'}}>
         
      
                                     
@@ -45,9 +45,9 @@ export default function UserCategoryList() {
 
 
 
-<Card style={{ width: '20rem', display:"inline-block" ,margin:"20px" }}>
+<Card style={{ width: '20rem', height:'20rem', display:"inline-block" ,margin:"20px" }}>
 <Link className="nav-item nav-link active" to={"/category/" + category.categoryId}>
-<Card.Img variant="top" src={"http://localhost:10000/assets/" +category.photo_path}
+<Card.Img variant="top" style={{height:'11rem'}} src={"http://localhost:10000/assets/" +category.photo_path}
                                      />
 <Card.Body>
   <Card.Title style={{textAlign:"center"}}>{category.name}</Card.Title>
