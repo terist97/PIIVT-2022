@@ -6,12 +6,14 @@ import { Link, useParams } from "react-router-dom";
 import { api } from "../../../../api/api";
 
 
-export interface IUserCategoryPageUrlParams extends Record<string, string | undefined> {
+export interface IUserItemPageUrlParams extends Record<string, string | undefined> {
     id: string
+    iid:string
 }
 
 export interface IUserCategoryProperties {
     categoryId?: number;
+    itemId?:number;
 }
 
 export default function UserCategoryPage(props: IUserCategoryProperties) {
@@ -20,9 +22,10 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
     const [ errorMessage, setErrorMessage ] = useState<string>("");
     const [ loading, setLoading ]           = useState<boolean>(false);
 
-    const params = useParams<IUserCategoryPageUrlParams>();
+    const params = useParams<IUserItemPageUrlParams>();
 
     const categoryId = props?.categoryId ?? params.id;
+    const itemId = props?.itemId ?? params.iid;
 
     useEffect(() => {
         setLoading(true);
@@ -58,44 +61,34 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
     }
 
     return (
-        <div>
-            
-               
-                
-                   
-
-                    
-                { items.map(item => 
-
-<div>
+       <div>
+           
 
                 
                 
                 
                 
-<div className="card" style={{width:"500px", margin:"15px"}}>
-<Link className="nav-item nav-link active" to={"/category/" + category?.categoryId+"/item/"+item.itemId}>
+
+
   <img className="card-img-top" 
-src={"http://localhost:10000/assets/" +item.photo_path}
-style={{width:"100%", height:"20vh"}}/>
+src={"http://localhost:10000/assets/" +items[0].photo_path}
+style={{width:"40%"}}/>
+<div style={{margin:"20px"}}>   <a href="#" className="btn btn-primary">Dodaj u korpu</a></div>
  
-  <div className="card-body">
-    <h4 className="card-title">{item.name}</h4>
+  <div >
+    <h4 className="card-title">Ime proizvoda je: {items[0].name}</h4>
 
-    <p className="card-text">{item.price}</p>
-    <a href="#" className="btn btn-primary">Dodaj u korpu</a>
+    <p className="card-text">Cena ovog artikla je:  {items[0].price}</p>
+    <p className="card-text">Opis ovog artikla:  {items[0].description}</p>
+
+  
   </div>
-  </Link>
-</div>                                                                  
-</div>    
-                
-                ) }
-                
+  
+                                                              
 
 
 
-
-        </div>
+       </div>
                 
             
        

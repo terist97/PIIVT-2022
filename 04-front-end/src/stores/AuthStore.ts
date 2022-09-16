@@ -47,13 +47,13 @@ function AuthStoreReducer(state: IAuthStoreData = InitialAuthStoreData, action: 
     }
 }
 
-const AuthStore = configureStore({
+const AppStore = configureStore({
     reducer: AuthStoreReducer
 });
 
-AuthStore.subscribe(() => {
-    localStorage.setItem('app-auth-store-data', JSON.stringify(AuthStore.getState()));
+AppStore.subscribe(() => {
+    localStorage.setItem('app-store-data', JSON.stringify(AppStore.getState()));
 });
 
-export type TAuthStoreDispatch = typeof AuthStore.dispatch;
-export default AuthStore;
+export type TAuthStoreDispatch = typeof AppStore.dispatch;
+export default AppStore;

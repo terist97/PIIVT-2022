@@ -16,6 +16,9 @@ import AdminItemList from '../Administrator/Dashboard/AdminItemList';
 import { Provider } from 'react-redux';
 import AdminItemEdit from '../Administrator/Dashboard/AdminItemEdit';
 import AuthStore from '../../stores/AuthStore';
+import ItemPreview from './User/Item/ItemPreview';
+import UserItemPage from './User/UserCategoryPage/UserItemPage';
+
 
 
 
@@ -31,11 +34,13 @@ function Application() {
       
 
         <Routes>
-          <Route path="/" element={<div><p>safasfs</p></div>} />
+          <Route path="/" element={<p>safasfs</p>} />
+       
           <Route path='/contact' element={ <ContactPage/> }/>
           <Route path='/auth/administrator/login' element={ <LoginPage/> } />
           <Route path="/categories" element={<UserCategoryList/>} />
           <Route path="/category/:id" element={<UserCategoryPage/>} />
+          <Route path="/category/:id/item/:iid" element={<UserItemPage/>} />
           <Route path="/admin/dashboard/category/:cid/items/add" element={<AdminItemAdd/>} />
           <Route path="/admin/dashboard/category/:cid/items/list" element={<AdminItemList/>} />
            

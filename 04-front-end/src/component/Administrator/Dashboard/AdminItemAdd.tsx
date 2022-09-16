@@ -196,6 +196,7 @@ export default function AdminItemAdd() {
                         <div className="form-froup mb-3">
                             <label>Item image</label>
                             <div className="input-group">
+                                
                                 <input type="file" accept=".jpg,.png" className="from-control form-control-sm"
                                      onChange={ e => {
                                         if (e.target.files) {
@@ -211,6 +212,7 @@ export default function AdminItemAdd() {
                                 Add item
                             </button>
                         </div>
+                        
                     </div>
                 </div>
             </div>

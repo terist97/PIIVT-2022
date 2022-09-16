@@ -13,6 +13,7 @@ export default function MenuVisitor(){
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
                 <Link className="nav-item nav-link active" to="/contact">Contact <span className="sr-only">(current)</span></Link>
+                <Link className="nav-item nav-link active" to="/korpa">Korpa <span className="sr-only">(current)</span></Link>
                 <Link className="nav-item nav-link active" to="/categories">Categories <span className="sr-only">(current)</span></Link>
                 <Link className="nav-item nav-link" to="/auth/administrator/login">Admin login</Link>
                

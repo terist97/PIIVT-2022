@@ -26,20 +26,7 @@ CREATE TABLE IF NOT EXISTS `administrator` (
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT 1,
   PRIMARY KEY (`administrator_id`),
   UNIQUE KEY `uq_administrator_username` (`username`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Data exporting was unselected.
-
--- Dumping structure for table piivt_app.cart
-CREATE TABLE IF NOT EXISTS `cart` (
-  `cart_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `item_id` int(10) unsigned NOT NULL,
-  `quantity` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`cart_id`),
-  KEY `fk_cart_cart_id` (`item_id`),
-  CONSTRAINT `fk_cart_cart_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -52,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `photo_path` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`category_id`),
   UNIQUE KEY `uq_category_name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
@@ -62,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `item` (
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` int(10) unsigned NOT NULL,
-  `price` double unsigned NOT NULL,
+  `price` decimal(10,2) unsigned NOT NULL,
   `is_active` tinyint(1) unsigned NOT NULL DEFAULT 1,
   `photo_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo_path` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -70,22 +57,31 @@ CREATE TABLE IF NOT EXISTS `item` (
   UNIQUE KEY `uq_item_name_category_id` (`name`,`category_id`),
   KEY `fk_item_category_id` (`category_id`),
   CONSTRAINT `fk_item_category_id` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.
 
 -- Dumping structure for table piivt_app.order
 CREATE TABLE IF NOT EXISTS `order` (
   `order_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cart_id` int(10) unsigned NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `user_name` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_surname` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_address` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_email` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`order_id`),
-  UNIQUE KEY `uq_order_cart_id` (`cart_id`),
-  CONSTRAINT `fk_order_cart_id` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`) ON DELETE CASCADE
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table piivt_app.order-item
+CREATE TABLE IF NOT EXISTS `order-item` (
+  `order_id` int(10) unsigned NOT NULL,
+  `item_id` int(10) unsigned NOT NULL,
+  KEY `fk_order-item_item_id` (`item_id`),
+  KEY `fk_order-item_order_id` (`order_id`),
+  CONSTRAINT `fk_order-item_item_id` FOREIGN KEY (`item_id`) REFERENCES `item` (`item_id`) ON UPDATE CASCADE,
+  CONSTRAINT `fk_order-item_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data exporting was unselected.

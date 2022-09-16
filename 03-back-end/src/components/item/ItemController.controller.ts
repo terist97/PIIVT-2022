@@ -393,41 +393,49 @@ export default class ItemController extends BaseController {
     }
 
 
-    // async deletePhoto(req: Request, res: Response) {
-    //     const categoryId: number = +(req.params?.cid);
-    //     const itemId: number = +(req.params?.iid);
-    //     const photoData = req.body as IEditItemDto;
+    async deletePhoto(req: Request, res: Response) {
+        const categoryId: number = +(req.params?.cid);
+        const itemId: number = +(req.params?.iid);
+        const photoData = req.body as IEditItemDto;
 
 
-    //     this.services.category.getById(categoryId)
-    //         .then(result => {
-    //             if (result === null) throw { status: 404, message: "Category not found" };
-    //             return result;
+        this.services.category.getById(categoryId)
+            .then(result => {
+                if (result === null) throw { status: 404, message: "Category not found" };
+                return result;
 
-    //         })
-    //         .then(async category => {
-    //             return {
-    //                 category: category,
-    //                 item: await this.services.item.getById(itemId, {
-    //                     loadCategory: true,
+            })
+            .then(async category => {
+                return {
+                    category: category,
+                    item: await this.services.item.getById(itemId, {
+                        loadCategory: true,
 
-    //                 })
-    //             }
-    //         })
+                    })
+                }
+            })
 
-    //         .then(({ category, item }) => {
-    //             if (item === null) throw { status: 404, message: "Item not found" };
-    //             if (item.categoryId !== category.categoryId) throw { status: 404, message: "Item not found in this category" };
-    //             return item;
-    //         })
-    //         .then(item => {
-    //             const photo = item.photo_name?.search(photo => item.photo_name === photoData.photo_name);
+            .then(({ category, item }) => {
+                if (item === null) throw { status: 404, message: "Item not found" };
+                if (item.categoryId !== category.categoryId) throw { status: 404, message: "Item not found in this category" };
+                return item;
+            })
+            .then(item => {
+                const serviceData: IEditItem = {};
+                this.services.item.edit(itemId, {
+                    photo_name: null,
+                    photo_path: null,
+                }, { loadCategory: false });
 
-    //         })
-    //         .catch(error => {
-    //             res.status(error?.status ?? 500).send(error?.message ?? "Server side error!");
-    //         })
-    // }
+            })
+            .then(() => {
+                res.send("Deleted!");
+            })
+
+            .catch(error => {
+                res.status(error?.status ?? 500).send(error?.message ?? "Server side error!");
+            })
+    }
 
 
 }
