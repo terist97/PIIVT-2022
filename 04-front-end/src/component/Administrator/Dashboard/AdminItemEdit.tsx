@@ -217,6 +217,30 @@ export default function AdminItemEdit() {
             }
 
         })
+        .then(item => {
+            if (!file) {
+                throw new Error("No item photo selected!");
+            }
+
+            return {
+                file,
+                item
+            };
+        })
+        .then(({ file, item }) => {
+            const data = new FormData();
+            data.append("image", file);
+          
+            return apiForm("post", "/api/category/" + categoryId + "/item/" + itemId + "/photo", "administrator", data);
+        })
+        .then(res => {
+            if (res.status !== "ok") {
+               
+                throw new Error("Could not upload item photo!");
+            }
+
+            return res.data;
+        })
         .then(() => {
             navigate("/admin/dashboard/category/" + categoryId + "/items/list", {
                 replace: true,
@@ -344,7 +368,7 @@ export default function AdminItemEdit() {
                                      } }
                                      
                                 />
-                                <button onClick={() => uploadPhoto}>dodaj</button>
+                                
                             </div>
                             </div>
                         </div>

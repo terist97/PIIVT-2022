@@ -18,6 +18,7 @@ import AdminItemEdit from '../Administrator/Dashboard/AdminItemEdit';
 import AuthStore from '../../stores/AuthStore';
 import ItemPreview from './User/Item/ItemPreview';
 import UserItemPage from './User/UserCategoryPage/UserItemPage';
+import { readBuilderProgram } from 'typescript';
 
 
 
@@ -26,15 +27,15 @@ import UserItemPage from './User/UserCategoryPage/UserItemPage';
 function Application() {
   return (
 
-    <Provider store={AuthStore}>
+    <Provider  store={AuthStore}>
     
-    <Container className="mt-4">
+    <Container className="mt-4" >
       <Menu/>
       
       
 
         <Routes>
-          <Route path="/" element={<p>safasfs</p>} />
+          <Route path="/" element={<p><h3>Welcome page</h3><h5>This is application </h5></p>} />
        
           <Route path='/contact' element={ <ContactPage/> }/>
           <Route path='/auth/administrator/login' element={ <LoginPage/> } />
