@@ -48,7 +48,7 @@ const DevConfig: IConfig = {
             issuer: "PIiVT",
             tokens: {
                 auth: {
-                    duration: 60 * 10,
+                    duration: 10,
                     // trebalo bi da traje par minuta
                     keys: {
                         public: readFileSync("./.keystore/app.public", "ascii"),
