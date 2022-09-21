@@ -4,93 +4,112 @@ import IItem from "../../../../models/IItemModel";
 import ItemPreview from "../Item/ItemPreview";
 import { Link, useParams } from "react-router-dom";
 import { api } from "../../../../api/api";
+import MyCartStore from "../../../../stores/MyCartStore";
 
-
-export interface IUserItemPageUrlParams extends Record<string, string | undefined> {
-    id: string
-    iid:string
+export interface IUserItemPageUrlParams
+    extends Record<string, string | undefined> {
+    id: string;
+    iid: string;
 }
 
-export interface IUserCategoryProperties {
+export interface IUserItemProperties {
     categoryId?: number;
-    itemId?:number;
+    itemId?: number;
 }
 
-export default function UserCategoryPage(props: IUserCategoryProperties) {
-    const [ category, setCategory ]         = useState<ICategory|null>(null);
-    const [ items, setItems ]               = useState<IItem[]>([]);
-    const [ errorMessage, setErrorMessage ] = useState<string>("");
-    const [ loading, setLoading ]           = useState<boolean>(false);
+export default function UserItemPage(props: IUserItemProperties) {
+    const [item, setItem] = useState<IItem>();
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const [cartState, setCartState] = useState(MyCartStore.getState())
 
     const params = useParams<IUserItemPageUrlParams>();
 
     const categoryId = props?.categoryId ?? params.id;
     const itemId = props?.itemId ?? params.iid;
 
-    useEffect(() => {
-        setLoading(true);
 
-        api("get", "/api/category/" + categoryId, "administrator")
-        .then(res => {
-            if (res.status === 'error') {
-                throw new Error('Could not get category data!');
-            }
-
-            setCategory(res.data);
-        })
-        .then(() => {
-            return api("get", "/api/category/" + categoryId + "/item", "administrator")
-        })
-        .then(res => {
-            if (res.status === 'error') {
-                throw new Error('Could not get category items!');
-            }
-
-            setItems(res.data);
-        })
-        .catch(error => {
-            setErrorMessage(error?.message ?? 'Unknown error while loading this category!');
-        })
-        .finally(() => {
-            setLoading(false);
-        });
-    }, [ categoryId ]);
-
-    if (items.length === 0) {
-        return null;
+    const isAlreadyInCart = () => {
+        if (!cartState || !cartState.items) return false
+        console.log(cartState.items)
+        const foundItem = cartState.items.find((cartItem) => cartItem.itemId === item?.itemId)
+        console.log(foundItem)
+        return foundItem !== undefined
     }
 
+    const [isAddedToCart, setIsAddedToCart] = useState(false)
+
+    useEffect(() => {
+        const _isAlreadyInCart = isAlreadyInCart()
+
+        console.log("from useeffect value is ", _isAlreadyInCart)
+        setIsAddedToCart(_isAlreadyInCart)
+    }, [cartState,item])
+
+    const handleAddToCart = (item?: IItem) => {
+        if (!item) return
+        setIsAddedToCart(true)
+        MyCartStore.dispatch({ type: "add_to_cart", value: item });
+    };
+
+    const handleRemoveFromCart = (item?: IItem) => {
+        if (!item) return
+        setIsAddedToCart(false)
+        MyCartStore.dispatch({ type: "remove_from_cart", value: item });
+    }
+    console.log("Is added to cart value: ", isAddedToCart)
+
+    useEffect(() => {
+        setLoading(true);
+        api(
+            "get",
+            "/api/category/" + categoryId + "/item/" + itemId,
+            "administrator"
+        ).then((response) => {
+            setItem(response.data as IItem);
+        }).finally(() => {
+            setLoading(false);
+        })
+    }, [categoryId, itemId]);
+
+
+
     return (
-       <div>
-           
-
-                
-                
-                
-                
+        <div>
 
 
-  <img className="card-img-top" 
-src={"http://localhost:10000/assets/" +items[0].photo_path}
-style={{width:"40%"}}/>
-<div style={{margin:"20px"}}>   <a href="#" className="btn btn-primary">Dodaj u korpu</a></div>
- 
-  <div >
-    <h4 className="card-title">Ime proizvoda je: {items[0].name}</h4>
+            <img
+                className="card-img-top"
+                src={"http://localhost:10000/assets/" + item?.photo_path}
+                style={{ width: "40%" }}
+                alt="asset"
+            />
+            <div style={{ margin: "20px" }}>
+                {isAddedToCart &&
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => handleRemoveFromCart(item)}
+                    >
+                        Izbaci iz korpe
+                    </button>
+                }
+                {!isAddedToCart &&
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => handleAddToCart(item)}
+                    >
+                        Dodaj u korpu
+                    </button>
+                }
+            </div>
 
-    <p className="card-text">Cena ovog artikla je:  {items[0].price}</p>
-    <p className="card-text">Opis ovog artikla:  {items[0].description}</p>
+            <div>
+                <h4 className="card-title">Ime proizvoda je: {item?.name}</h4>
 
-  
-  </div>
-  
-                                                              
+                <p className="card-text">Cena ovog artikla je: {item?.price}</p>
+                <p className="card-text">Opis ovog artikla: {item?.description}</p>
+            </div>
+        </div>
 
-
-
-       </div>
-                
-            
-       
     );
 }

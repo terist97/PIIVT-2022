@@ -52,7 +52,11 @@ export default function AdminCategoryList(){
         }
         return (
             <tr>
-                <td>{props.category.categoryId}</td>
+                <td><img
+                className="card-img-top"
+                src={"http://localhost:10000/assets/" + props.category.photo_path}
+                style={{ width: "100%", height: "10vh" }}
+              /></td>
                 
                 <td>{props.category.categoryId}</td>
                 <td>
@@ -64,12 +68,19 @@ export default function AdminCategoryList(){
                     
                     </td>
                 <td>
+                
+                <Link className="btn btn-primary btn-sm mb-1" to={"/admin/dashboard/category/edit/"+
+                    props.category.categoryId}> Edit category</Link>
+                    &nbsp;
                     <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+
                     props.category.categoryId + "/items/list"}> List items</Link>
                     &nbsp;
 
                     <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/"+
                     props.category.categoryId + "/items/add"}> Add item</Link>
+
+                    
+                    
                 </td>
             </tr>
         );
@@ -130,8 +141,10 @@ export default function AdminCategoryList(){
             {errorMessage && (<p>Error: {errorMessage}</p>)}
             {!errorMessage && 
             <div>
-                <button className="btn btn-primary btn-sm" onClick={()=>setShowAddNewCategory(true)}>Add new category </button>
-        
+                
+                <Link className="btn btn-primary btn-sm" to={"/admin/dashboard/category/add"}> Add category</Link>
+                
+                
                <table className="table table-bordered table-striped table-hover table-sm" mt-3>
                    <thead>
                        <tr>

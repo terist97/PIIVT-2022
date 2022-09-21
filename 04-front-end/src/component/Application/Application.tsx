@@ -19,6 +19,9 @@ import AuthStore from '../../stores/AuthStore';
 import ItemPreview from './User/Item/ItemPreview';
 import UserItemPage from './User/UserCategoryPage/UserItemPage';
 import { readBuilderProgram } from 'typescript';
+import Cart from './User/Cart';
+import AdminCategoryAdd from '../Administrator/Dashboard/AdminCategoryAdd';
+import AdminCategoryEdit from '../Administrator/Dashboard/AdminCategoryEdit';
 
 
 
@@ -38,10 +41,12 @@ function Application() {
           <Route path="/" element={<p><h3>Welcome page</h3><h5>This is application </h5></p>} />
        
           <Route path='/contact' element={ <ContactPage/> }/>
+          <Route path='/cart' element={ <Cart/> }/>
           <Route path='/auth/administrator/login' element={ <LoginPage/> } />
           <Route path="/categories" element={<UserCategoryList/>} />
           <Route path="/category/:id" element={<UserCategoryPage/>} />
           <Route path="/category/:id/item/:iid" element={<UserItemPage/>} />
+          <Route path="/admin/dashboard/category/add" element={<AdminCategoryAdd/>} />
           <Route path="/admin/dashboard/category/:cid/items/add" element={<AdminItemAdd/>} />
           <Route path="/admin/dashboard/category/:cid/items/list" element={<AdminItemList/>} />
            
@@ -52,6 +57,7 @@ function Application() {
           <Route path="/admin/dashboard/category/list" element={<AdminCategoryList/>} />
           <Route path="/admin/dashboard/administrator/list" element={<AdminAdministratorList/>} />
           <Route path="/admin/dashboard/administrator/add" element={<AdminAdministratorAdd/>} />
+          <Route path="/admin/dashboard/category/edit/:cid" element={ <AdminCategoryEdit /> } />
           <Route path="/admin/dashboard/category/:cid/items/edit/:iid" element={ <AdminItemEdit /> } />
 
           
