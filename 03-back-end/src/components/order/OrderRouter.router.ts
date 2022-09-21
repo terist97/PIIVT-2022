@@ -9,6 +9,8 @@ class OrderRouter implements IRouter {
 
         application.get("/api/order", orderController.getAll.bind(orderController));
         application.get("/api/order/:id", orderController.getById.bind(orderController));
+        application.post("/api/order", orderController.add.bind(orderController));
+
 
     }
 }

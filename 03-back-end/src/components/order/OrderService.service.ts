@@ -4,6 +4,7 @@ import IAdapterOptions from '../../common/IAdapterOptions.interface';
 import * as mysql2 from 'mysql2/promise';
 
 import { rejects } from "assert";
+import IAddOrder from "./dto/IAddOrder.dto";
 
 export class OrderAdapterOptions implements IAdapterOptions {
 
@@ -126,6 +127,9 @@ export default class OrderService extends BaseService<OrderModel, OrderAdapterOp
 
     //     });
     // }
+    public async add(data: IAddOrder): Promise<OrderModel> {
+        return this.baseAdd(data, DefaultOrderAdapterOptions);
+    }
 
 
 }

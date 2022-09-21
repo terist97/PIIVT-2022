@@ -10,7 +10,6 @@ import AuthMiddleware from "../../middlewares/AuthMiddleware";
 export default class AuthController extends BaseController {
 
     public async administratorLogin(req: Request, res: Response) {
-
         const data = req.body as IAdministratorLoginDto;
 
         this.services.administrator.getByUsername(data.username)
@@ -24,28 +23,22 @@ export default class AuthController extends BaseController {
 
                 return result;
             })
-
             .then(administrator => {
-
                 if (!bcrypt.compareSync(data.password, administrator.passwordHash)) {
-
                     throw {
                         status: 404,
                         message: "Administrator account not found!"
                     };
                 }
 
-
                 return administrator;
-
-
             })
-
             .then(administrator => {
-
                 const tokenData: IAdministratorTokenData = {
+
                     administratorId: administrator.administratorId,
                     username: administrator.username,
+                    role: "administrator",
                 };
 
                 const authToken = jwt.sign(tokenData, DevConfig.auth.administrator.tokens.auth.keys.private, {
@@ -53,6 +46,7 @@ export default class AuthController extends BaseController {
                     issuer: DevConfig.auth.administrator.issuer,
                     expiresIn: DevConfig.auth.administrator.tokens.auth.duration,
                 });
+
                 const refreshToken = jwt.sign(tokenData, DevConfig.auth.administrator.tokens.refresh.keys.private, {
                     algorithm: DevConfig.auth.administrator.algorithm,
                     issuer: DevConfig.auth.administrator.issuer,
@@ -63,24 +57,20 @@ export default class AuthController extends BaseController {
                     authToken: authToken,
                     refreshToken: refreshToken,
                     id: administrator.administratorId,
-
-
                 });
             })
             .catch(error => {
                 setTimeout(() => {
                     res.status(error?.status ?? 500).send(error?.message);
                 }, 1500);
-            })
+            });
     }
 
     administratorRefresh(req: Request, res: Response) {
-        const refreshTokenHeader: string = req.headers?.authorization ?? "";
-
+        const refreshTokenHeader: string = req.headers?.authorization ?? ""; // "Bearer TOKEN"
 
         try {
-            const tokenData = AuthMiddleware.validateTokenAs(refreshTokenHeader, "refresh");
-
+            const tokenData = AuthMiddleware.validateTokenAs(refreshTokenHeader, "administrator", "refresh");
 
             const authToken = jwt.sign(tokenData, DevConfig.auth.administrator.tokens.auth.keys.private, {
                 algorithm: DevConfig.auth.administrator.algorithm,
@@ -89,19 +79,10 @@ export default class AuthController extends BaseController {
             });
 
             res.send({
-                authToken: authToken,
+                authToken: authToken
             });
-        }
-        catch (error) {
-
+        } catch (error) {
             res.status(error?.status ?? 500).send(error?.message);
         }
-
-
     }
-
-
-
-
-
 }
