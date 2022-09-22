@@ -1,6 +1,6 @@
 export default interface IAdministratorTokenData {
-    administratorId: number;
-    username: string;
+    id: number;
+    identity: string;
     role: "administrator";
 }
 

@@ -82,7 +82,7 @@ export default function Cart() {
                 }}>
                 Empty cart
             </button> */}
-            <button 
+            <button className="btn btn-primary"
             disabled={cartState.items.length===0}
             onClick={() => { setIsCartConfirmed(true)  }
             

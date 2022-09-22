@@ -8,7 +8,6 @@ import DevConfig from '../../configs';
 import AuthMiddleware from "../../middlewares/AuthMiddleware";
 
 export default class AuthController extends BaseController {
-
     public async administratorLogin(req: Request, res: Response) {
         const data = req.body as IAdministratorLoginDto;
 
@@ -35,10 +34,9 @@ export default class AuthController extends BaseController {
             })
             .then(administrator => {
                 const tokenData: IAdministratorTokenData = {
-
-                    administratorId: administrator.administratorId,
-                    username: administrator.username,
                     role: "administrator",
+                    id: administrator.administratorId,
+                    identity: administrator.username,
                 };
 
                 const authToken = jwt.sign(tokenData, DevConfig.auth.administrator.tokens.auth.keys.private, {
@@ -58,6 +56,7 @@ export default class AuthController extends BaseController {
                     refreshToken: refreshToken,
                     id: administrator.administratorId,
                 });
+
             })
             .catch(error => {
                 setTimeout(() => {
@@ -79,8 +78,10 @@ export default class AuthController extends BaseController {
             });
 
             res.send({
-                authToken: authToken
+                authToken: refreshTokenHeader,
             });
+
+
         } catch (error) {
             res.status(error?.status ?? 500).send(error?.message);
         }

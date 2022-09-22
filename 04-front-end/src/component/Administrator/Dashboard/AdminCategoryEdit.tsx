@@ -170,6 +170,30 @@ export default function AdminCategoryEdit() {
             }
 
         })
+        .then(category => {
+            if (!file) {
+                throw new Error("No item photo selected!");
+            }
+
+            return {
+                file,
+                category
+            };
+        })
+        .then(({ file, category }) => {
+            const data = new FormData();
+            data.append("image", file);
+          
+            return apiForm("post", "/api/category/" + categoryId +  "/photo", "administrator", data);
+        })
+        .then(res => {
+            if (res.status !== "ok") {
+               
+                throw new Error("Could not upload item photo!");
+            }
+
+            return res.data;
+        })
         
         // .then(({ file }) => {
         //     const data = new FormData();

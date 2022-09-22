@@ -75,13 +75,13 @@ export default function UserCategoryPage(props: IUserCategoryProperties) {
               <img
                 className="card-img-top"
                 src={"http://localhost:10000/assets/" + item.photo_path}
-                style={{ width: "100%", height: "20vh" }}
+                style={{ width: "100%", height: "30vh" }}
               />
 
               <div className="card-body">
                 <h4 className="card-title">{item.name}</h4>
 
-                <p className="card-text">{item.price}</p>
+                <p className="card-text">{item.price} RSD</p>
                 
                 
               </div>

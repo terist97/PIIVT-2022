@@ -90,8 +90,8 @@ export default class AuthMiddleware {
             }
             const originalTokenData = tokenVerification as IAdministratorTokenData;
             const tokenData: IAdministratorTokenData = {
-                administratorId: originalTokenData.administratorId,
-                username: originalTokenData.username,
+                id: originalTokenData.id,
+                identity: originalTokenData.identity,
                 role: "administrator"
             };
 

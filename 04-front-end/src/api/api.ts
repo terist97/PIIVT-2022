@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { Response } from 'express';
 import AuthStore from '../stores/AuthStore';
 export type TApiMethod = "get" | "post" | "put" | "delete";
-export type TApiRole = "user" | "administrator" | "visitor";
+export type TApiRole = "administrator" | "visitor";
 export type TApiResponse = "ok" | "error" | "login";
 
 export interface IApiResponse {
@@ -137,10 +137,13 @@ function refreshToken(): Promise<string | null> {
                 "Authorization": "Bearer " + AuthStore.getState().refreshToken,
             },
         })
+
             .then(res => refreshTokenResponseHandler(res, resolve))
+
             .catch(() => {
                 resolve(null);
             });
+
     });
 }
 
