@@ -144,7 +144,7 @@ export default function Cart() {
              {sentData &&
              <div>
        <div>Uplatilac:</div>
-       <div style={{border:"1px solid black"}}>{surname} {forename},<br></br> {address}  <br></br>
+       <div style={{border:"1px solid black"}}>{surname} {forename}<br></br> {address}  <br></br>
        Email:{email}</div>
        <div className="mt-2">Svrha uplate:</div>
        <div style={{border:"1px solid black"}}>Kupovina tehnickih proizvoda</div>
