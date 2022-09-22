@@ -1,0 +1,673 @@
+{
+	"info": {
+		"_postman_id": "31cd2f6f-ac0e-443d-80fb-972931cb1c20",
+		"name": "PIIVT aplikacija",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11099829"
+	},
+	"item": [
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a single catergory",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ovo je nova kategorija\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"kategorijanova222\",\r\n    \"description\":\"fsafasfa\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload category photo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fajl1",
+									"type": "file",
+									"src": "/C:/Users/terist/Desktop/mobils.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/10/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"10",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete category photo",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbmlzdHJhdG9ySWQiOjEwLCJ1c2VybmFtZSI6ImFkbWlucHJpamF2YSIsInJvbGUiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjYzNzY2MjM1LCJleHAiOjE2NjM5ODIyMzUsImlzcyI6IlBJaVZUIn0.G_74orWsSWcKWvuSaeUxuTXah3eEsjzSsw-Wp7SW8csA9F6OYlKhsLnpfhE9HODVS32rijxMJqZAzY5d-8SqZT06KkuyR5YKHoPv0bEPUFND-46oyU9jUlIOmbZIk-dvXArhodc7RtyhbsakgqsNo6CS6Uyqf3xM-7cYdE8m69fEm0jeCRTQGPk9G_6Mp_YfqbBUx1mxbaq7-6RilOZrHUBln59n4i-hECwMcUbsK548LqsA1FW_bFnxwFkchioxqWxuIekIEp4QEfLFslVYFwX3u1E4H25f66ow0bt94N3dkLIZst28f8tYQXPuU6kqvswNvEBUtu8RzMyP4ARITw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category/11/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"11",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Administrator",
+			"item": [
+				{
+					"name": "Get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlkIjoxMCwiaWRlbnRpdHkiOiJhZG1pbnByaWphdmEiLCJpYXQiOjE2NjM3OTY5NzYsImV4cCI6MTY2ODk4MDk3NiwiaXNzIjoiUElpVlQifQ.mofwjxoKnH3-ypzyjGLbzR6LhVlOdNb-2dW-yz-uh3R75Jv4pqV4aSiqqtHNtfNRFtKzkBOcYspoOmarJG64DY1wRp1eMr0psScmWxiYfCaaG-Nns4V84UJWRqRCJNHtuBDjzlcshJscfEfudSr93NM5QOUmldLPzUeloEU7qvYtgb_a6pZWbSXHlUSiy1DBBJN8Z-EzvzUWDjlckL-cVDMrIEQ03dI_-KqP7SfFItRvxupJQv7D0oQw1NaVJ3_DJqseyC2VCA1E3-vY5pcnejWtfwApZ4K52qA8bzDXaj-1Bm42RIUA9vSSWd1J7DJUMtCc7jRmO77HctvgtOpLgQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/administrator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single administrator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlkIjoxMywiaWRlbnRpdHkiOiJhZG1pbnByaWphdmEiLCJpYXQiOjE2NjM4MDgyNjcsImV4cCI6MTY2NDAyNDI2NywiaXNzIjoiUElpVlQifQ.M7gT4EcKXckRg2ipEGcbE6dPy5zv40cSTApI2471lNymalfVTHwymEEHfN-LvXInyb72-wyEIBarlWv_JArpiLYrYxuqMRPhbT7NjbRPoQS6k305y2owPIFb85QzTWz9wQEivMSeGOqefJyZtTBXh_clfuCz2N8DxAFWx8F4GzmCxUqDlKQXJudaKmmJuQQlIk60sxPOxJ_OWwchHDdH_MdG9VfTgiUjIfI_0rMziyGEmOzJ4Tqed6iylgqyM9ZXb4NTrsW9oAlIvjwwHGHGgfLKfsUR9VoS8yRSH-0gGdNyHo6GREku07vmKCjgbvab8ljDFgUPq_XqLHFgfQa4pQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/administrator/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new administrator",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW5pc3RyYXRvciIsImlkIjoxMywiaWRlbnRpdHkiOiJhZG1pbnByaWphdmEiLCJpYXQiOjE2NjM4MDgyNjcsImV4cCI6MTY2NDAyNDI2NywiaXNzIjoiUElpVlQifQ.M7gT4EcKXckRg2ipEGcbE6dPy5zv40cSTApI2471lNymalfVTHwymEEHfN-LvXInyb72-wyEIBarlWv_JArpiLYrYxuqMRPhbT7NjbRPoQS6k305y2owPIFb85QzTWz9wQEivMSeGOqefJyZtTBXh_clfuCz2N8DxAFWx8F4GzmCxUqDlKQXJudaKmmJuQQlIk60sxPOxJ_OWwchHDdH_MdG9VfTgiUjIfI_0rMziyGEmOzJ4Tqed6iylgqyM9ZXb4NTrsW9oAlIvjwwHGHGgfLKfsUR9VoS8yRSH-0gGdNyHo6GREku07vmKCjgbvab8ljDFgUPq_XqLHFgfQa4pQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \r\n        \"username\": \"adminprijava\",\r\n        \"password\":\"Madafaka2011.\"\r\n        \r\n        \r\n        \r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/administrator",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit an administrator",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"Blabla1.\",\r\n    \"isActive\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/administrator/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Administrator - only password.",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\":\"F12safsaaffaf2a111\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/administrator/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit an administrator - only status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\":false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/administrator/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"administrator",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Get all items from a selected category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category/1/item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"1",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single item",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category/1/item/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"1",
+								"item",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a new item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Redmi note 10 Pro\",\r\n    \"description\":\"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the . \",\r\n    \"price\":20000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/10/item",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"10",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload item photos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file1",
+									"type": "file",
+									"src": "/C:/Users/terist/Desktop/redmi103.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/10/item/85/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"10",
+								"item",
+								"85",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a single item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"description\":\"NAJNOVIJI opis koji postoji bla bla bla bla bla2222222222\"\r\n    \r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:10000/api/category/15/item/79",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"15",
+								"item",
+								"79"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete item photo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:10000/api/category/2/item/4/photo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "10000",
+							"path": [
+								"api",
+								"category",
+								"2",
+								"item",
+								"4",
+								"photo"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Administrator",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbmlzdHJhdG9ySWQiOjQsInVzZXJuYW1lIjoiYWRtaW5ubm4iLCJpYXQiOjE2NTQ1MjQzNDMsImV4cCI6MTY1NDYxMDc0MywiaXNzIjoiUElpVlQifQ.VyMGN-_af2KGIDi1cgu3PePftYyuAl-qEGiMEpjxCPl2bLE0UfgCkEBv5CTCDezaaovq-lXwTs6OwNaNIvc12nGxdz5ooZAO8RAuHxlMrOv2XZz5C6Ia6cUjlIdhTSBaUF1wrCPrspFdrpiBR-OBnX9yNPAduqC0PmRGu1L_mqD05hLv262kXgzPOiLLD5zL-egYNGevPfasdaiRvG-_JS26ITtV1bSiRdIsIgxfGYZa6hNRVnonTGg4PQBv4MITtjhLzGuOMAT0mRjTVBM5IfIggy5nymP_xwHVY4lARbOr_KMGjqdbvTPr2T7IzvaKiESTKrP4Lf_4ILaHwdoGrA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n\r\n        \"username\": \"adminprijava\",\r\n        \"password\":\"Madafaka2011.\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:10000/api/auth/administrator/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "10000",
+									"path": [
+										"api",
+										"auth",
+										"administrator",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh auth token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbmlzdHJhdG9ySWQiOjEwLCJ1c2VybmFtZSI6ImFkbWlucHJpamF2YSIsInJvbGUiOiJhZG1pbmlzdHJhdG9yIiwiaWF0IjoxNjYzNzg4NDU0LCJleHAiOjE2Njg5NzI0NTQsImlzcyI6IlBJaVZUIn0.0Y4roC2alzcWXrIi9LlFPkWUfy0Mjtih3CZgDtP3DGbtm28Q4tw1Wnx3gqWITHRJoTrNNEaKMyfGDzRDBb9ln3b1NOHfp8HJF2us8mOdqtYPXX9ckgVnzPQDp7B9PrvjTTO30U1OjPgeNTV_gACOhyJIkfiI1suGpn_mHuAfXRpEs3h4xD49ZAQ56EKUCHQszxBihaUD_IW8bJ92vzGMcdMP9bCx8UAvEUzsAW1KhtBaSPFCegt5iUP0K0NXo8yTd6dbm0GssD86c49DkJAKD2PmHCwEe7zQSkJdMxOFbZb-JmhWzk9PlSbJc7TqrjHgp2ytrp-IjKVKXrxQOXzf4Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:10000/api/auth/administrator/refresh",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "10000",
+									"path": [
+										"api",
+										"auth",
+										"administrator",
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "http://localhost:10000",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
